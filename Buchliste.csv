@@ -1,13 +1,10 @@
-﻿Titel,Autor,Sprache,Beginn,Ende,Art des Buchs,Rating
-The Bitcoin Standard,Saifedean Ammous,Englisch,13/09/2021,,Sachbuch,
-Logik,Wesley C. Salmon,Deutsch,07/07/2022,19/07/2022,Sachbuch,3
-"Das Buch, von dem du dir wünschst, deine Eltern hätten es gelesen",Philippa Perry,Deutsch,13/07/2022,24/07/2022,Sachbuch,7
-Im Grunde Gut,Rutger Bregman,Deutsch,14/03/2022,15/06/2022,Sachbuch,7
-Projekt Phoenix,"Gene Kim, George Spafford, Kevin Behr",Deutsch,15/06/2022,03/07/2022,Roman,8
-Unsere Welt neu denken,Maja Göppel,Deutsch,01/07/2022,05/07/2022,Sachbuch,5
-Atomic Habits,James Clear,Englisch,,,Sachbuch,
-The Organized Mind,Daniel Levitin,Englisch,24/07/2022,,Sachbuch,
-Farm der Tiere,George Orwell,Deutsch,06/07/2022,08/07/2022,Roman,8
-1984,George Orwell,Deutsch,28/07/2022,,Roman,
-Schutzengel,Paulo Coelho,Deutsch,08/07/2022,11/07/2022,Roman,6
-Essentialism: The Disciplined Pursuit of Less,Greg McKeown,Englisch,,,Sachbuch,
+﻿Titel,Art des Buchs,Autor,Beginn,Ende,Rating,Seiten,Sprache
+Im Grunde Gut,Sachbuch,Rutger Bregman,14/03/2022,15/06/2022,7,480,Deutsch
+Projekt Phoenix,Roman,"Gene Kim, George Spafford, Kevin Behr",15/06/2022,03/07/2022,8,352,Deutsch
+Unsere Welt neu denken,Sachbuch,Maja Göppel,01/07/2022,05/07/2022,5,208,Deutsch
+Farm der Tiere,Roman,George Orwell,06/07/2022,08/07/2022,8,143,Deutsch
+1984,Roman,George Orwell,28/07/2022,10/08/2022,8,439,Deutsch
+Logik,Sachbuch,Wesley C. Salmon,07/07/2022,19/07/2022,3,287,Deutsch
+Schutzengel,Roman,Paulo Coelho,08/07/2022,11/07/2022,6,208,Deutsch
+"Das Buch, von dem du dir wünschst, deine Eltern hätten es gelesen",Sachbuch,Philippa Perry,13/07/2022,24/07/2022,7,320,Deutsch
+Das Damengambit,Roman,Walter Tevis,10/08/2022,15/08/2022,9,416,Deutsch
