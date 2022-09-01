@@ -1,42 +1,4 @@
-import matplotlib.pyplot as plt
-import pandas as pd
-import seaborn as sns
-import statistics
-
-# Define the Notion columns
-title = "Titel"
-author = "Autor"
-pages = "Seiten"
-language = "Sprache"
-type_of_book = "Art des Buchs"
-start_date = "Beginn"
-end_date = "Ende"
-rating = "Rating"
-
-# Create a class, which holds all our functions and data manipulations
-class readingSummarizer():
-
-    # The init-Method creates a Dataframe from the csv-file and processes the data to create new values
-    def __init__(self,filename):
-        self.books = pd.read_csv(filename)
-
-        # Dataframe manipulation
-
-        # Edit the Dataframe by converting the date-columns to Pandas-dates to process them in further steps
-        self.books = self.convertDates(self.books)
-
-
-        # Create a new column to get the amount of days, the book was read by subtracting the end date with
-        # the start date and add one additional day. Transform it to an integer value after.
-        self.books["days_read"] = (self.books[end_date] - self.books[start_date] + pd.to_timedelta(1, unit='d')).dt.days
-
-        # Create a new column to get the pages per day by dividing the pages by the days read value.
-        # Round the result to two decimal places.
-        self.books["pages_per_day"] = round(self.books[pages] / self.books.days_read,2)
-
-    # Data manipulation functions
-
-    # Converts the start and end date to the Pandas date format
+# Converts the start and end date to the Pandas date format
     def convertDates(self,df):
         df[start_date] = pd.to_datetime(df[start_date], infer_datetime_format=True)
         df[end_date] = pd.to_datetime(df[end_date], infer_datetime_format=True)
@@ -117,7 +79,7 @@ class readingSummarizer():
 
         monthly_pages = self.books.apply(getPeriod, axis=1)
 
-        monthly_pages = monthly_pages.groupby(type_group).sum()
+        monthly_pages = monthly_pages.groupby(type_group)
 
         output_list = []
         for key, values in month_dict.items():
@@ -125,29 +87,22 @@ class readingSummarizer():
                                 round(monthly_pages.loc[group_member[0]][key],1),
                                 round(monthly_pages.loc[group_member[1]][key],1)])
 
-        output_df = pd.DataFrame(data=output_list, columns=["Month",group_member[0],group_member[1]])
-        output_df = output_df.set_index("Month")
+        return output_list
 
-        return output_df
-
-
-
-    def getGeneralStyling(self):
-        # Style and color specifications
-        sns.set_style("darkgrid", {"grid.color": ".6", "grid.linestyle": ":"})
-        colors = ["#4667FA", "#2FD3FA"]
-        sns.set_palette(sns.color_palette(colors))
 
 
     # Creates a plot of a specific Dataframe column
     def barplotFunction(self,df,column):
-        self.getGeneralStyling()
-
         # Calculate the mean value of the column
         mean = statistics.mean(df[column])
 
         # Cut the Dataframe by only using the first 5 entries. Remember: It's already sorted beforehand.
         df = df.head(5)
+
+        # Style and color specifications
+        sns.set_style("darkgrid", {"grid.color": ".6", "grid.linestyle": ":"})
+        colors = ["#4667FA", "#2FD3FA"]
+        sns.set_palette(sns.color_palette(colors))
 
         # Create the bar plot with our given column on the y-axis.
         sns.barplot(y=df[column], x=df[title], hue=df[type_of_book], dodge=False)
@@ -156,15 +111,9 @@ class readingSummarizer():
         plt.axhline(y=mean, color="red")
         plt.show()
 
-    def stackedBarplotFunction(self,df):
-        self.getGeneralStyling()
-
-        df.plot(kind="bar", stacked=True)
-        plt.show()
 
 
-
-
-a = readingSummarizer("Buchliste2.csv")
+a = readingSummarizer("Buchliste.csv")
 pages_per_month = a.monthlyPages(type_of_book)
-a.stackedBarplotFunction(pages_per_month)
+
+print(pages_per_month)
