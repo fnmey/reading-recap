@@ -47,18 +47,30 @@ class readingSummarizer():
     # based on a given boolean value and then plot it afterwards.
     def readingSpeed(self,order_high_to_low):
         self.books = self.books.sort_values(by="days_read",ascending=order_high_to_low)
+
+        # Cut the Dataframe by only using the first 5 entries. Remember: It's already sorted beforehand.
+        self.books = self.books.head(5)
+
         self.barplotFunction(self.books,"days_read")
+
 
     # View the Dataframe on the "Pages-Per-Days" aspect by first sorting the values either ascending or descending
     # based on a given boolean value and then plot it afterwards.
     def pagesPerDay(self,order_high_to_low):
         self.books = self.books.sort_values(by="pages_per_day",ascending=not order_high_to_low)
+
+        # Cut the Dataframe by only using the first 5 entries. Remember: It's already sorted beforehand.
+        self.books = self.books.head(5)
+
         self.barplotFunction(self.books,"pages_per_day")
 
 
     def monthlyPages(self,type_group):
+        
+        # Function, that calculates the mean pages read per month for each book.
+        def pagesInMonth(row):
 
-        def getPeriod(row):
+            # Dictionary, that stores the values of pages read per month.
             month_count = {
                             "01":0,
                             "02":0,
@@ -77,17 +89,54 @@ class readingSummarizer():
             # Stores all days the book was read in a single column
             row["period"] = pd.date_range(row[start_date], row[end_date]).date.tolist()
 
+            # For every entry (meaning every day) the month counter is increasing.
             for i in row["period"]:
                 month_count[str(i)[5:7]] += 1
 
+            # Iterate over the counter-dict and pass the values != 0 to the specific DataFrame column for each month.
             for key, values in month_count.items():
                 if values == 0:
                     pass
                 else:
                     row[key] = round(row[pages] * (values / row["days_read"]), 1)
 
+            # Return the row in the end, so that an apply-function on the existing DataFrame works.
             return row
 
+        # Filters the DataFrame based on a selected type
+        def filterByType(df):
+            # TEMPORÄR - Start
+            # Define the type of groups there are for each category
+            type_of_groups = {
+                "Art des Buchs": ["Roman", "Sachbuch"],
+                "Medium": ["Buch", "E-Book"],
+                "Sprache": ["Deutsch", "Englisch"]
+            }
+
+            # Get the group members of the selected type
+            group_member = type_of_groups[type_group]
+            # TEMPORÄR - Ende
+
+            # Group the dataframe by the selected type and generate the sum for each column
+            df = df.groupby(type_group).sum()
+
+            # Create a list that stores the value of the dictionary (the month name) and the sum for each
+            # group member for each month
+            output_list = []
+            for key, values in month_dict.items():
+                output_list.append([values,
+                                    round(df.loc[group_member[0]][key], 1),
+                                    round(df.loc[group_member[1]][key], 1)])
+
+            # Create a DataFrame out of this list with the month and the group-member names as the column names
+            output_df = pd.DataFrame(data=output_list, columns=["Month", group_member[0], group_member[1]])
+            output_df = output_df.set_index("Month")
+
+            return output_df
+
+
+        # This dictionary works as translation, so that we'll get the actual names instead of the number
+        # of each month for visualization purposes
         month_dict = {
             "01":"January",
             "02":"February",
@@ -102,33 +151,28 @@ class readingSummarizer():
             "11":"November",
             "12":"December"
         }
-
-        type_of_groups = {
-                            "Art des Buchs": ["Roman","Sachbuch"],
-                            "Medium": ["Buch","E-Book"],
-                            "Sprache": ["Deutsch", "Englisch"]
-                        }
-
-        group_member = type_of_groups[type_group]
-
-
+        # Iterate over the defined dict and create "empty" Dataframe columns
         for key in month_dict.keys():
             self.books[key] = 0
 
-        monthly_pages = self.books.apply(getPeriod, axis=1)
+        # Apply the above defined function so that we'll fill the above created month columns
+        monthly_pages = self.books.apply(pagesInMonth, axis=1)
 
-        monthly_pages = monthly_pages.groupby(type_group).sum()
+        # If there is no type_group specified, then we will create a line plot of the pages per month.
+        if type_group is False:
+            output_list = []
+            for key, value in month_dict.items():
+                output_list.append([value, monthly_pages.sum()[key]])
+            output_df = pd.DataFrame(output_list, columns=["Month", "Pages"])
 
-        output_list = []
-        for key, values in month_dict.items():
-            output_list.append([values,
-                                round(monthly_pages.loc[group_member[0]][key],1),
-                                round(monthly_pages.loc[group_member[1]][key],1)])
+            self.lineplotFunction(output_df,x="Month",y="Pages")
 
-        output_df = pd.DataFrame(data=output_list, columns=["Month",group_member[0],group_member[1]])
-        output_df = output_df.set_index("Month")
+        # Else, we will filter the DataFrame by the type of group and create a stacked bar plot.
+        else:
+            monthly_pages = filterByType(monthly_pages)
+            # Choose the stacked bar plot for this type of visualization
+            self.stackedBarplotFunction(monthly_pages)
 
-        return output_df
 
 
 
@@ -139,15 +183,12 @@ class readingSummarizer():
         sns.set_palette(sns.color_palette(colors))
 
 
-    # Creates a plot of a specific Dataframe column
+    # Creates a bar plot of a specific Dataframe column
     def barplotFunction(self,df,column):
         self.getGeneralStyling()
 
         # Calculate the mean value of the column
         mean = statistics.mean(df[column])
-
-        # Cut the Dataframe by only using the first 5 entries. Remember: It's already sorted beforehand.
-        df = df.head(5)
 
         # Create the bar plot with our given column on the y-axis.
         sns.barplot(y=df[column], x=df[title], hue=df[type_of_book], dodge=False)
@@ -163,8 +204,19 @@ class readingSummarizer():
         plt.show()
 
 
+    def lineplotFunction(self,df,x,y):
+        self.getGeneralStyling()
 
+        # Calculate the mean value of the column
+        mean = statistics.mean(df[y])
 
-a = readingSummarizer("Buchliste2.csv")
-pages_per_month = a.monthlyPages(type_of_book)
-a.stackedBarplotFunction(pages_per_month)
+        # Create the bar plot with our given column on the y-axis.
+        sns.lineplot(y=df[y], x=df[x], sort=False)
+
+        # Add a horizontal line to the plot, which symbolizes the mean value.
+        plt.axhline(y=mean, color="red")
+
+        plt.show()
+
+a = readingSummarizer("Buchliste.csv")
+a.monthlyPages(type_group=False)
