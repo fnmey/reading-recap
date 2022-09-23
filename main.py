@@ -13,6 +13,9 @@ start_date = "Beginn"
 end_date = "Ende"
 rating = "Rating"
 
+category = "Reading Speed"
+good_to_bad = True
+
 # Create a class, which holds all our functions and data manipulations
 class readingSummarizer():
 
@@ -218,5 +221,11 @@ class readingSummarizer():
 
         plt.show()
 
-a = readingSummarizer("Buchliste.csv")
-a.monthlyPages(type_group=False)
+if __name__ == "__main__":
+    a = readingSummarizer("Buchliste.csv")
+    if category == "Pages Per Day":
+        a.pagesPerDay(good_to_bad)
+    elif category == "Reading Speed":
+        a.readingSpeed(good_to_bad)
+    elif category == "Monthly Pages":
+        a.monthlyPages(type_of_book)
