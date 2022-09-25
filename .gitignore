@@ -1,3 +1,4 @@
 *.csv
+*.numbers
 .idea
 __pycache__/
