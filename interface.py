@@ -19,9 +19,15 @@ class GUI:
         self.window.geometry(f'{self.window_width}x{self.window_height}+{self.center_x}+{self.center_y}')
         self.window.title("Select your choice")
 
+        self.functions = readingSummarizer("Buchliste.csv")
+
+
+        self.ppd_button = tk.Button(self.window,text="Pages Per Day",command=lambda: self.functions.pagesPerDay(True))
+        self.ppd_button.grid(row=0,column=0)
+
         self.window.mainloop()
 
 
-a = GUI()
 #a = readingSummarizer("Buchliste.csv")
 
+a = GUI()
