@@ -25,6 +25,9 @@ class GUI:
         self.ppd_button = tk.Button(self.window,text="Pages Per Day",command=lambda: self.functions.pagesPerDay(True))
         self.ppd_button.grid(row=0,column=0)
 
+        self.rs_button = tk.Button(self.window,text="Reading Speed", command=lambda: self.functions.readingSpeed(True))
+        self.rs_button.grid(row=0,column=1)
+
         self.window.mainloop()
 
 
