@@ -28,6 +28,9 @@ class GUI:
         self.rs_button = tk.Button(self.window,text="Reading Speed", command=lambda: self.functions.readingSpeed(True))
         self.rs_button.grid(row=0,column=1)
 
+        self.mp_button = tk.Button(self.window, text="Monthly Pages", command=lambda: self.functions.monthlyPages("Art des Buchs"))
+        self.mp_button.grid(row=0, column=3)
+        
         self.window.mainloop()
 
 
