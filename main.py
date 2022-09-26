@@ -16,18 +16,18 @@ rating = "Rating"
 category = "Reading Speed"
 good_to_bad = True
 
+
 # Create a class, which holds all our functions and data manipulations
 class readingSummarizer():
 
     # The init-Method creates a Dataframe from the csv-file and processes the data to create new values
-    def __init__(self,filename):
-        self.books = pd.read_csv(filename,delimiter=";")
+    def __init__(self, filename):
+        self.books = pd.read_csv(filename, delimiter=";")
 
         # Dataframe manipulation
 
         # Edit the Dataframe by converting the date-columns to Pandas-dates to process them in further steps
         self.books = self.convertDates(self.books)
-
 
         # Create a new column to get the amount of days, the book was read by subtracting the end date with
         # the start date and add one additional day. Transform it to an integer value after.
@@ -35,59 +35,69 @@ class readingSummarizer():
 
         # Create a new column to get the pages per day by dividing the pages by the days read value.
         # Round the result to two decimal places.
-        self.books["pages_per_day"] = round(self.books[pages] / self.books.days_read,2)
+        self.books["pages_per_day"] = round(self.books[pages] / self.books.days_read, 2)
 
     # Data manipulation functions
 
     # Converts the start and end date to the Pandas date format
-    def convertDates(self,df):
+    def convertDates(self, df):
         df[start_date] = pd.to_datetime(df[start_date], infer_datetime_format=True)
         df[end_date] = pd.to_datetime(df[end_date], infer_datetime_format=True)
         return df
 
-
     # View the Dataframe on the "Reading-Speed" aspect by first sorting the values either ascending or descending
     # based on a given boolean value and then plot it afterwards.
-    def readingSpeed(self,order_high_to_low):
-        self.books = self.books.sort_values(by="days_read",ascending=order_high_to_low)
+    def readingSpeed(self, order_high_to_low):
+
+        # Give the input variable a boolean value for the next step.
+        if order_high_to_low == "Good":
+            order_high_to_low = True
+        elif order_high_to_low == "Bad":
+            order_high_to_low = False
+        self.books = self.books.sort_values(by="days_read", ascending=order_high_to_low)
 
         # Cut the Dataframe by only using the first 5 entries. Remember: It's already sorted beforehand.
         self.books = self.books.head(5)
 
-        self.barplotFunction(self.books,"days_read")
-
+        self.barplotFunction(self.books, "days_read")
 
     # View the Dataframe on the "Pages-Per-Days" aspect by first sorting the values either ascending or descending
     # based on a given boolean value and then plot it afterwards.
-    def pagesPerDay(self,order_high_to_low):
-        self.books = self.books.sort_values(by="pages_per_day",ascending=not order_high_to_low)
+    def pagesPerDay(self, order_high_to_low):
+
+        # Give the input variable a boolean value for the next step.
+        if order_high_to_low == "Good":
+            order_high_to_low = True
+        elif order_high_to_low == "Bad":
+            order_high_to_low = False
+
+        self.books = self.books.sort_values(by="pages_per_day", ascending=not order_high_to_low)
 
         # Cut the Dataframe by only using the first 5 entries. Remember: It's already sorted beforehand.
         self.books = self.books.head(5)
 
-        self.barplotFunction(self.books,"pages_per_day")
+        self.barplotFunction(self.books, "pages_per_day")
 
+    def monthlyPages(self, type_group):
 
-    def monthlyPages(self,type_group):
-        
         # Function, that calculates the mean pages read per month for each book.
         def pagesInMonth(row):
 
             # Dictionary, that stores the values of pages read per month.
             month_count = {
-                            "01":0,
-                            "02":0,
-                            "03":0,
-                            "04":0,
-                            "05":0,
-                            "06":0,
-                            "07":0,
-                            "08":0,
-                            "09":0,
-                            "10":0,
-                            "11":0,
-                            "12":0
-                            }
+                "01": 0,
+                "02": 0,
+                "03": 0,
+                "04": 0,
+                "05": 0,
+                "06": 0,
+                "07": 0,
+                "08": 0,
+                "09": 0,
+                "10": 0,
+                "11": 0,
+                "12": 0
+            }
 
             # Stores all days the book was read in a single column
             row["period"] = pd.date_range(row[start_date], row[end_date]).date.tolist()
@@ -137,22 +147,21 @@ class readingSummarizer():
 
             return output_df
 
-
         # This dictionary works as translation, so that we'll get the actual names instead of the number
         # of each month for visualization purposes
         month_dict = {
-            "01":"January",
-            "02":"February",
-            "03":"March",
-            "04":"April",
-            "05":"May",
-            "06":"June",
-            "07":"July",
-            "08":"August",
-            "09":"September",
-            "10":"October",
-            "11":"November",
-            "12":"December"
+            "01": "January",
+            "02": "February",
+            "03": "March",
+            "04": "April",
+            "05": "May",
+            "06": "June",
+            "07": "July",
+            "08": "August",
+            "09": "September",
+            "10": "October",
+            "11": "November",
+            "12": "December"
         }
         # Iterate over the defined dict and create "empty" Dataframe columns
         for key in month_dict.keys():
@@ -168,7 +177,7 @@ class readingSummarizer():
                 output_list.append([value, monthly_pages.sum()[key]])
             output_df = pd.DataFrame(output_list, columns=["Month", "Pages"])
 
-            self.lineplotFunction(output_df,x="Month",y="Pages")
+            self.lineplotFunction(output_df, x="Month", y="Pages")
 
         # Else, we will filter the DataFrame by the type of group and create a stacked bar plot.
         else:
@@ -176,18 +185,14 @@ class readingSummarizer():
             # Choose the stacked bar plot for this type of visualization
             self.stackedBarplotFunction(monthly_pages)
 
-
-
-
     def getGeneralStyling(self):
         # Style and color specifications
         sns.set_style("darkgrid", {"grid.color": ".6", "grid.linestyle": ":"})
         colors = ["#4667FA", "#2FD3FA"]
         sns.set_palette(sns.color_palette(colors))
 
-
     # Creates a bar plot of a specific Dataframe column
-    def barplotFunction(self,df,column):
+    def barplotFunction(self, df, column):
         self.getGeneralStyling()
 
         # Calculate the mean value of the column
@@ -200,14 +205,13 @@ class readingSummarizer():
         plt.axhline(y=mean, color="red")
         plt.show()
 
-    def stackedBarplotFunction(self,df):
+    def stackedBarplotFunction(self, df):
         self.getGeneralStyling()
 
         df.plot(kind="bar", stacked=True)
         plt.show()
 
-
-    def lineplotFunction(self,df,x,y):
+    def lineplotFunction(self, df, x, y):
         self.getGeneralStyling()
 
         # Calculate the mean value of the column
@@ -220,6 +224,7 @@ class readingSummarizer():
         plt.axhline(y=mean, color="red")
 
         plt.show()
+
 
 if __name__ == "__main__":
     a = readingSummarizer("Buchliste.csv")
