@@ -79,7 +79,12 @@ class readingSummarizer():
         self.barplotFunction(self.books, "pages_per_day")
 
     def monthlyPages(self, type_group):
-
+        if type_group == "Type of Book":
+            type_group = "Art des Buchs"
+        elif type_group == "Medium":
+            type_group = "Medium"
+        elif type_group == "Language":
+            type_group = "Sprache"
         # Function, that calculates the mean pages read per month for each book.
         def pagesInMonth(row):
 
