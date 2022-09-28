@@ -6,8 +6,8 @@ class GUI:
     def __init__(self):
         # Initialize a tkinter main window with fix width and height
         self.window = tk.Tk()
-        self.window_width = 400
-        self.window_height = 400
+        self.window_width = 500
+        self.window_height = 150
 
         # Get the screen dimension of the current screen
         self.screen_width = self.window.winfo_screenwidth()
