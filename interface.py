@@ -2,6 +2,7 @@ from main import readingSummarizer
 import tkinter as tk
 from tkinter import ttk
 
+
 class GUI:
     def __init__(self):
         # Initialize a tkinter main window with fix width and height
@@ -18,7 +19,11 @@ class GUI:
         self.center_y = int(self.screen_height / 2 - self.window_height / 2)
 
         # Adjust the geometry to place the window right in the center
-        self.window.geometry(f'{self.window_width}x{self.window_height}+{self.center_x}+{self.center_y}')
+        self.window.geometry("{width}x{height}+{center_x}+{center_y}".format(
+            width=self.window_width,
+            height=self.window_height,
+            center_x=self.center_x,
+            center_y=self.center_y))
 
         # Define the window title
         self.window.title("Select your choice")
@@ -55,7 +60,6 @@ class GUI:
 
         self.mp_dropdown.current(0)
         self.mp_dropdown.grid(row=1, column=2)
-
 
         # Run the main window
         self.window.mainloop()
