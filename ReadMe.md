@@ -16,7 +16,7 @@ With Python and its powerful Pandas library we are able to analyse this data and
 ## Screenshots
 
 ### Pages Per Day
-![alt text](readme-screenshots/Pages_Per_Day.png)
+![alt text](readme-screenshots/Pages_Per_Day_Good.png)
 
 ### Days Read
 ![alt text](readme-screenshots/Days_Read_Good.png)
