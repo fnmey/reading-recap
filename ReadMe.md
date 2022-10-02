@@ -11,3 +11,17 @@ With Python and its powerful Pandas library we are able to analyse this data and
   
 
 ## Methods
+
+
+## Screenshots
+
+### Pages Per Day
+
+### Days Read
+![alt text](readme-screenshots/Days_Read_Good.png)
+
+### Monthly Pages - Type of Book
+
+### Monthly Pages - Medium
+
+### Monthly Pages - Language‚
