@@ -22,7 +22,7 @@ class readingSummarizer():
 
     # The init-Method creates a Dataframe from the csv-file and processes the data to create new values
     def __init__(self, filename):
-        self.books = pd.read_csv(filename, delimiter=";")
+        self.books = pd.read_csv(filename, delimiter=",")
 
         # Dataframe manipulation
 
@@ -41,8 +41,8 @@ class readingSummarizer():
 
     # Converts the start and end date to the Pandas date format
     def convertDates(self, df):
-        df[start_date] = pd.to_datetime(df[start_date], infer_datetime_format=True)
-        df[end_date] = pd.to_datetime(df[end_date], infer_datetime_format=True)
+        df[start_date] = pd.to_datetime(df[start_date], infer_datetime_format=True, format="%d/%m/%Y")
+        df[end_date] = pd.to_datetime(df[end_date], infer_datetime_format=True, format="%d/%m/%Y")
         return df
 
     # View the Dataframe on the "Reading-Speed" aspect by first sorting the values either ascending or descending
@@ -232,7 +232,7 @@ class readingSummarizer():
 
 
 if __name__ == "__main__":
-    a = readingSummarizer("Buchliste.csv")
+    a = readingSummarizer(filename="Buchliste.csv")
     if category == "Pages Per Day":
         a.pagesPerDay(good_to_bad)
     elif category == "Reading Speed":
