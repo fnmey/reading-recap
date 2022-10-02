@@ -2,3 +2,4 @@
 *.numbers
 .idea
 __pycache__/
+readme-screenshots/
