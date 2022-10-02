@@ -9,6 +9,7 @@ author = "Autor"
 pages = "Seiten"
 language = "Sprache"
 type_of_book = "Art des Buchs"
+medium = "Medium"
 start_date = "Beginn"
 end_date = "Ende"
 rating = "Rating"
@@ -74,11 +75,11 @@ class readingSummarizer():
 
     def monthlyPages(self, type_group):
         if type_group == "Type of Book":
-            type_group = "Art des Buchs"
+            type_group = type_of_book
         elif type_group == "Medium":
-            type_group = "Medium"
+            type_group = medium
         elif type_group == "Language":
-            type_group = "Sprache"
+            type_group = language
         # Function, that calculates the mean pages read per month for each book.
         def pagesInMonth(row):
 
