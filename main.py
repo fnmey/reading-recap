@@ -56,10 +56,7 @@ class readingSummarizer():
             order_high_to_low = False
         self.books = self.books.sort_values(by="days_read", ascending=order_high_to_low)
 
-        # Cut the Dataframe by only using the first 5 entries. Remember: It's already sorted beforehand.
-        self.books = self.books.head(5)
-
-        self.barplotFunction(self.books, "days_read")
+        self.barplotFunction(self.books.head(5), "days_read")
 
     # View the Dataframe on the "Pages-Per-Days" aspect by first sorting the values either ascending or descending
     # based on a given boolean value and then plot it afterwards.
@@ -73,10 +70,7 @@ class readingSummarizer():
 
         self.books = self.books.sort_values(by="pages_per_day", ascending=not order_high_to_low)
 
-        # Cut the Dataframe by only using the first 5 entries. Remember: It's already sorted beforehand.
-        self.books = self.books.head(5)
-
-        self.barplotFunction(self.books, "pages_per_day")
+        self.barplotFunction(self.books.head(5), "pages_per_day")
 
     def monthlyPages(self, type_group):
         if type_group == "Type of Book":
