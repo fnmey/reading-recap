@@ -63,10 +63,7 @@ class GUI:
 
         # Run the main window
         self.window.mainloop()
-
-
-# a = readingSummarizer("Buchliste.csv")
-
+        
 # Run the class
 if __name__ == "__main__":
     a = GUI()
