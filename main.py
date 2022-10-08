@@ -23,7 +23,6 @@ class readingSummarizer():
 
     # The init-Method creates a Dataframe from the csv-file and processes the data to create new values
     def __init__(self, filename):
-        self.books = pd.read_csv(filename, delimiter=",")
 
         # Dataframe manipulation
 
@@ -224,13 +223,3 @@ class readingSummarizer():
         plt.axhline(y=mean, color="red")
 
         plt.show()
-
-
-if __name__ == "__main__":
-    a = readingSummarizer(filename="Buchliste.csv")
-    if category == "Pages Per Day":
-        a.pagesPerDay(good_to_bad)
-    elif category == "Reading Speed":
-        a.readingSpeed(good_to_bad)
-    elif category == "Monthly Pages":
-        a.monthlyPages(type_of_book)
