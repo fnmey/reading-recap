@@ -31,6 +31,10 @@ class GUI:
         # Initialize the class out of the main.py file which stores the functions
         self.functions = readingSummarizer("Buchliste.csv")
 
+        # Create a label for the file selection.
+        self.label = tk.Label(self.window, text="Select your input csv below.")
+        self.label.grid(row=0, column=0, columnspan=3)
+
         # Create the Pages Per Day button and place it on the main window
         self.ppd_button = tk.Button(self.window, text="Pages Per Day",
                                     command=lambda: self.functions.pagesPerDay(self.good_bad_dropdown.get()))
