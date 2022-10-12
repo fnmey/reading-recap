@@ -35,6 +35,10 @@ class GUI:
         self.label = tk.Label(self.window, text="Select your input csv below.")
         self.label.grid(row=0, column=0, columnspan=3)
 
+        # Create a button, that will select an input file.
+        self.file_selection = tk.Button(self.window, text="File not selected.")
+        self.file_selection.grid(row=1, column=0, columnspan=3)
+
         # Create the Pages Per Day button and place it on the main window
         self.ppd_button = tk.Button(self.window, text="Pages Per Day",
                                     command=lambda: self.functions.pagesPerDay(self.good_bad_dropdown.get()))
