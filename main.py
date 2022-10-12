@@ -24,6 +24,9 @@ class readingSummarizer():
     # The init-Method creates a Dataframe from the csv-file and processes the data to create new values
     def __init__(self, filename):
 
+        # Create a dataframe out of the input csv.
+        self.books = pd.read_csv(filename, delimiter=";")
+
         # Dataframe manipulation
 
         # Edit the Dataframe by converting the date-columns to Pandas-dates to process them in further steps
