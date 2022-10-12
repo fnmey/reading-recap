@@ -34,23 +34,23 @@ class GUI:
         # Create the Pages Per Day button and place it on the main window
         self.ppd_button = tk.Button(self.window, text="Pages Per Day",
                                     command=lambda: self.functions.pagesPerDay(self.good_bad_dropdown.get()))
-        self.ppd_button.grid(row=0, column=0)
+        self.ppd_button.grid(row=2, column=0)
 
         # Create the Reading Speed button and place it on the main window
         self.rs_button = tk.Button(self.window, text="Reading Speed",
                                    command=lambda: self.functions.readingSpeed(self.good_bad_dropdown.get()))
-        self.rs_button.grid(row=0, column=1)
+        self.rs_button.grid(row=2, column=1)
 
         # Create a Combobox with two values that are given to the button function.
         self.good_bad_dropdown = ttk.Combobox(self.window,
                                               values=["Good", "Bad"])
         self.good_bad_dropdown.current(0)
-        self.good_bad_dropdown.grid(row=1, column=0, columnspan=2)
+        self.good_bad_dropdown.grid(row=3, column=0, columnspan=2)
 
         # Create the Monthly Pages button and place it on the main window
         self.mp_button = tk.Button(self.window, text="Monthly Pages",
                                    command=lambda: self.functions.monthlyPages(self.mp_dropdown.get()))
-        self.mp_button.grid(row=0, column=2)
+        self.mp_button.grid(row=2, column=2)
 
         # Create a Combobox for filtering the Monthly Pages button and place it
         self.mp_dropdown = ttk.Combobox(self.window,
@@ -59,11 +59,11 @@ class GUI:
                                                 "Language"])
 
         self.mp_dropdown.current(0)
-        self.mp_dropdown.grid(row=1, column=2)
+        self.mp_dropdown.grid(row=3, column=2)
 
         # Run the main window
         self.window.mainloop()
-        
+
 # Run the class
 if __name__ == "__main__":
     a = GUI()
