@@ -1,6 +1,7 @@
 from main import readingSummarizer
 import tkinter as tk
 from tkinter import ttk
+from tkinter import filedialog as fd
 
 
 class GUI:
@@ -36,7 +37,7 @@ class GUI:
         self.label.grid(row=0, column=0, columnspan=3)
 
         # Create a button, that will select an input file.
-        self.file_selection = tk.Button(self.window, text="File not selected.")
+        self.file_selection = tk.Button(self.window, text="File not selected.", command=lambda: self.select_file())
         self.file_selection.grid(row=1, column=0, columnspan=3)
 
         # Create the Pages Per Day button and place it on the main window
@@ -71,6 +72,16 @@ class GUI:
 
         # Run the main window
         self.window.mainloop()
+
+    # Function to select the input file.
+    def select_file(self):
+
+        #
+        filetypes = [("CSV file","*.csv"),
+                     ("All files","*.*")]
+
+        self.filename = fd.askopenfilename(filetypes=filetypes,
+                                           initialdir="/")
 
 # Run the class
 if __name__ == "__main__":
