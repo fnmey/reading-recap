@@ -76,10 +76,11 @@ class GUI:
     # Function to select the input file.
     def select_file(self):
 
-        #
+        # Assign the csv file type and also a general type.
         filetypes = [("CSV file","*.csv"),
                      ("All files","*.*")]
 
+        # Trigger the open file dialog and assign the selected type to this variable.
         self.filename = fd.askopenfilename(filetypes=filetypes,
                                            initialdir="/")
 
